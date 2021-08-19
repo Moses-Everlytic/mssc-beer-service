@@ -9,7 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
-import javax.validation.constraints.NotBlank;
+
+import com.nexstudio.msscbeerservice.constants.BeerStyleEnum;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -45,9 +46,8 @@ public class Beer {
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
 
-    @NotBlank
     private String beerName;
-    private String beerStyle;
+    private BeerStyleEnum beerStyle;
 
     @Column(unique = true)
     private Long upc;
