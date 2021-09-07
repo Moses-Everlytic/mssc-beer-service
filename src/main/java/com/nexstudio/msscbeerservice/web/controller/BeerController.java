@@ -2,6 +2,8 @@ package com.nexstudio.msscbeerservice.web.controller;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import com.nexstudio.msscbeerservice.web.model.BeerDTO;
 
 import org.springframework.http.HttpHeaders;
@@ -28,7 +30,7 @@ public class BeerController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveNewBeer(@RequestBody BeerDTO beerDTO) {
+    public ResponseEntity<Void> saveNewBeer(@Valid @RequestBody BeerDTO beerDTO) {
         BeerDTO beerDTO2 = BeerDTO.builder().id(UUID.randomUUID()).beerName(beerDTO.getBeerName())
                 .beerStyle(beerDTO.getBeerStyle()).build();
 
@@ -39,7 +41,7 @@ public class BeerController {
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity<Void> updateBeer(@PathVariable("beerId") UUID id, @RequestBody BeerDTO beerDTO) {
+    public ResponseEntity<Void> updateBeer(@PathVariable("beerId") UUID id, @Valid @RequestBody BeerDTO beerDTO) {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

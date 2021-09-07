@@ -5,9 +5,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nexstudio.msscbeerservice.constants.BeerStyleEnum;
 import com.nexstudio.msscbeerservice.web.model.BeerDTO;
 
 import org.junit.jupiter.api.Test;
@@ -36,7 +38,7 @@ public class BeerControllerTest {
 
 	@Test
 	public void shouldSaveNewBeer() throws Exception {
-		BeerDTO beer = BeerDTO.builder().id(id).beerName("Test").build();
+		BeerDTO beer = BeerDTO.builder().beerName("Test").beerStyle(BeerStyleEnum.ALE).price(new BigDecimal(34.99)).upc(129087648912L).build();
 		String beerDTOJson = objectMapper.writeValueAsString(beer);
 
 		mockMvc.perform(post(apiURI)
@@ -47,7 +49,7 @@ public class BeerControllerTest {
 
 	@Test
 	public void shouldUpdateBeer() throws Exception {
-		BeerDTO beer = BeerDTO.builder().id(id).beerName("Test").build();
+		BeerDTO beer = BeerDTO.builder().beerName("Test").beerStyle(BeerStyleEnum.ALE).price(new BigDecimal(34.99)).upc(129087648912L).build();
 		String beerDTOJson = objectMapper.writeValueAsString(beer);
 
 		mockMvc.perform(put(apiURI + id)
