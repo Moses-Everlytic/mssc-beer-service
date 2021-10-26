@@ -25,7 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-@AutoConfigureRestDocs
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lacafenex.com", uriPort = 80)
 @WebMvcTest(BeerController.class)
 @ExtendWith(RestDocumentationExtension.class)
 public class BeerControllerTest {
@@ -44,20 +44,19 @@ public class BeerControllerTest {
 		mockMvc.perform(
 				get(apiURI + "{beerId}", id).param("example-param", "example").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andDo(document("v1/beer",
+				.andDo(document("v1/beer-get",
 						pathParameters(parameterWithName("beerId").description("UUID of desired beer to get.")),
-						// requestParameters(parameterWithName("exmaple-param").description("Example parameter")),
-						responseFields(
-							fieldWithPath("id").description("Id of Beer"),
-							fieldWithPath("version").description("The Beer version number"),
-							fieldWithPath("beerName").description("The name of the Beer"),
-							fieldWithPath("beerStyle").description("Beer type"),
-							fieldWithPath("price").description("Price of Beer"),
-							fieldWithPath("quantityOnHand").description("Number of beers on available"),
-							fieldWithPath("upc").description("Barcode of Beer"),
-							fieldWithPath("createdDate").description("Date when Beer was created"),
-							fieldWithPath("lastModified").description("Date when Beer was last modified")
-						)));
+						// requestParameters(parameterWithName("exmaple-param").description("Example
+						// parameter")),
+						responseFields(fieldWithPath("id").description("Id of Beer"),
+								fieldWithPath("version").description("The Beer version number"),
+								fieldWithPath("beerName").description("The name of the Beer"),
+								fieldWithPath("beerStyle").description("Beer type"),
+								fieldWithPath("price").description("Price of Beer"),
+								fieldWithPath("quantityOnHand").description("Number of beers on available"),
+								fieldWithPath("upc").description("Barcode of Beer"),
+								fieldWithPath("createdDate").description("Date when Beer was created"),
+								fieldWithPath("lastModified").description("Date when Beer was last modified"))));
 	}
 
 	@Test
@@ -68,18 +67,14 @@ public class BeerControllerTest {
 
 		mockMvc.perform(post(apiURI).contentType(MediaType.APPLICATION_JSON).content(beerDTOJson))
 				.andExpect(status().isCreated())
-				.andDo(document("v1/beer", 
-						requestFields(
-							fieldWithPath("id").ignored(),
-							fieldWithPath("createdDate").ignored(),
-							fieldWithPath("lastModified").ignored(),
-							fieldWithPath("version").ignored(),
-							fieldWithPath("beerName").description("The name of the Beer"),
-							fieldWithPath("beerStyle").description("Beer type"),
-							fieldWithPath("price").description("Price of Beer"),
-							fieldWithPath("quantityOnHand").description("Number of beers on available"),
-							fieldWithPath("upc").description("Barcode of Beer")
-						)));
+				.andDo(document("v1/beer-new",
+						requestFields(fieldWithPath("id").ignored(), fieldWithPath("createdDate").ignored(),
+								fieldWithPath("lastModified").ignored(), fieldWithPath("version").ignored(),
+								fieldWithPath("quantityOnHand").ignored(),
+								fieldWithPath("beerName").description("The name of the Beer"),
+								fieldWithPath("beerStyle").description("Beer type"),
+								fieldWithPath("price").description("Price of Beer"),
+								fieldWithPath("upc").description("Beer UPC").attributes())));
 	}
 
 	@Test
@@ -90,20 +85,13 @@ public class BeerControllerTest {
 
 		mockMvc.perform(put(apiURI + "{beerId}", id).contentType(MediaType.APPLICATION_JSON).content(beerDTOJson))
 				.andExpect(status().isNoContent())
-				.andDo(document("v1/beer", 
-						pathParameters(
-							parameterWithName("beerId").description("Id of Beer")
-						),
-						requestFields(
-							fieldWithPath("id").ignored(),
-							fieldWithPath("createdDate").ignored(),
-							fieldWithPath("lastModified").ignored(),
-							fieldWithPath("version").ignored(),
-							fieldWithPath("beerName").description("The name of the Beer"),
-							fieldWithPath("beerStyle").description("Beer type"),
-							fieldWithPath("price").description("Price of Beer"),
-							fieldWithPath("quantityOnHand").description("Number of beers on available"),
-							fieldWithPath("upc").description("Barcode of Beer")
-						)));
+				.andDo(document("v1/beer-update", pathParameters(parameterWithName("beerId").description("Id of Beer")),
+						requestFields(fieldWithPath("id").ignored(), fieldWithPath("createdDate").ignored(),
+								fieldWithPath("lastModified").ignored(), fieldWithPath("version").ignored(),
+								fieldWithPath("beerName").description("The name of the Beer"),
+								fieldWithPath("beerStyle").description("Beer type"),
+								fieldWithPath("price").description("Price of Beer"), fieldWithPath("quantityOnHand")
+										.description("Number of beers on available").attributes(),
+								fieldWithPath("upc").description("Barcode of Beer"))));
 	}
 }

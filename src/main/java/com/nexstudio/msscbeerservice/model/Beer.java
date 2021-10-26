@@ -9,6 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 import com.nexstudio.msscbeerservice.constants.BeerStyleEnum;
 
@@ -34,7 +38,7 @@ public class Beer {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
-    private UUID io;
+    private UUID id;
 
     @Version
     private Long version;
@@ -46,15 +50,23 @@ public class Beer {
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
 
+    @NotBlank
+    @Size(min = 3, max = 100)
     private String beerName;
+
+    @NotNull
     private BeerStyleEnum beerStyle;
 
     @Column(unique = true)
     private Long upc;
 
+    @Positive
+    @NotNull
     private BigDecimal price;
 
     private Integer minOnHand;
+
+    @Positive
     private Integer quantityToBrew;
 
 }

@@ -18,6 +18,7 @@
 		<jaxb.version>3.0.1</jaxb.version>
 		<org.lombok.version>1.18.20</org.lombok.version>
 		<mapstruct.version>1.4.2.Final</mapstruct.version>
+		<spring-restdocs.version>2.0.5.RELEASE</spring-restdocs.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -146,7 +147,7 @@
 					<dependency> 
 						<groupId>org.springframework.restdocs</groupId>
 						<artifactId>spring-restdocs-asciidoctor</artifactId>
-						<version>${spring-restdocs-version}</version>
+						<version>${spring-restdocs.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
