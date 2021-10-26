@@ -3,6 +3,7 @@ package com.nexstudio.msscbeerservice.web.controller;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 // import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 // import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 // import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -45,7 +46,18 @@ public class BeerControllerTest {
 				.andExpect(status().isOk())
 				.andDo(document("v1/beer",
 						pathParameters(parameterWithName("beerId").description("UUID of desired beer to get.")),
-						requestParameters(parameterWithName("exmaple-param").description("Example parameter"))));
+						// requestParameters(parameterWithName("exmaple-param").description("Example parameter")),
+						responseFields(
+							fieldWithPath("id").description("Id of Beer"),
+							fieldWithPath("version").description("The Beer version number"),
+							fieldWithPath("beerName").description("The name of the Beer"),
+							fieldWithPath("beerStyle").description("Beer type"),
+							fieldWithPath("price").description("Price of Beer"),
+							fieldWithPath("quantityOnHand").description("Number of beers on available"),
+							fieldWithPath("upc").description("Barcode of Beer"),
+							fieldWithPath("createdDate").description("Date when Beer was created"),
+							fieldWithPath("lastModified").description("Date when Beer was last modified")
+						)));
 	}
 
 	@Test
@@ -55,7 +67,19 @@ public class BeerControllerTest {
 		String beerDTOJson = objectMapper.writeValueAsString(beer);
 
 		mockMvc.perform(post(apiURI).contentType(MediaType.APPLICATION_JSON).content(beerDTOJson))
-				.andExpect(status().isCreated());
+				.andExpect(status().isCreated())
+				.andDo(document("v1/beer", 
+						requestFields(
+							fieldWithPath("id").ignored(),
+							fieldWithPath("createdDate").ignored(),
+							fieldWithPath("lastModified").ignored(),
+							fieldWithPath("version").ignored(),
+							fieldWithPath("beerName").description("The name of the Beer"),
+							fieldWithPath("beerStyle").description("Beer type"),
+							fieldWithPath("price").description("Price of Beer"),
+							fieldWithPath("quantityOnHand").description("Number of beers on available"),
+							fieldWithPath("upc").description("Barcode of Beer")
+						)));
 	}
 
 	@Test
@@ -64,7 +88,22 @@ public class BeerControllerTest {
 				.upc(129087648912L).build();
 		String beerDTOJson = objectMapper.writeValueAsString(beer);
 
-		mockMvc.perform(put(apiURI + id).contentType(MediaType.APPLICATION_JSON).content(beerDTOJson))
-				.andExpect(status().isNoContent());
+		mockMvc.perform(put(apiURI + "{beerId}", id).contentType(MediaType.APPLICATION_JSON).content(beerDTOJson))
+				.andExpect(status().isNoContent())
+				.andDo(document("v1/beer", 
+						pathParameters(
+							parameterWithName("beerId").description("Id of Beer")
+						),
+						requestFields(
+							fieldWithPath("id").ignored(),
+							fieldWithPath("createdDate").ignored(),
+							fieldWithPath("lastModified").ignored(),
+							fieldWithPath("version").ignored(),
+							fieldWithPath("beerName").description("The name of the Beer"),
+							fieldWithPath("beerStyle").description("Beer type"),
+							fieldWithPath("price").description("Price of Beer"),
+							fieldWithPath("quantityOnHand").description("Number of beers on available"),
+							fieldWithPath("upc").description("Barcode of Beer")
+						)));
 	}
 }
