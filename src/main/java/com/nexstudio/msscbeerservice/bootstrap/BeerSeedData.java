@@ -16,6 +16,10 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class BeerSeedData implements CommandLineRunner {
 
+    public static final String BEER_1_UPC = "0002348987546";
+    public static final String BEER_2_UPC = "0006648987549";
+    public static final String BEER_3_UPC = "0079148987541";
+
     @Autowired
     private final BeerRespository beerRespository;
 
@@ -27,13 +31,13 @@ public class BeerSeedData implements CommandLineRunner {
     }
 
     private void loadBeerData() {
-        beerRespository.save(Beer.builder().beerName("Castle Lagar").beerStyle(BeerStyleEnum.LAGER).upc(485960000000L)
+        beerRespository.save(Beer.builder().beerName("Castle Lagar").beerStyle(BeerStyleEnum.LAGER).upc(BEER_1_UPC)
                 .price(new BigDecimal("17.99")).minOnHand(20).quantityToBrew(100).build());
 
-        beerRespository.save(Beer.builder().beerName("Black Label").beerStyle(BeerStyleEnum.LAGER).upc(23450000000L)
+        beerRespository.save(Beer.builder().beerName("Black Label").beerStyle(BeerStyleEnum.LAGER).upc(BEER_2_UPC)
                 .price(new BigDecimal("15.99")).minOnHand(5).quantityToBrew(5000).build());
 
-        beerRespository.save(Beer.builder().beerName("Milk Stout").beerStyle(BeerStyleEnum.STOUT).upc(112340000050L)
+        beerRespository.save(Beer.builder().beerName("Milk Stout").beerStyle(BeerStyleEnum.STOUT).upc(BEER_3_UPC)
                 .price(new BigDecimal("21.99")).minOnHand(80).quantityToBrew(50).build());
     }
 

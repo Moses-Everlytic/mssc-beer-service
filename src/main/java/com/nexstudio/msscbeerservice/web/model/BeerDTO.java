@@ -41,9 +41,8 @@ public class BeerDTO {
     private BigDecimal price;
     private Integer quantityOnHand;
 
-    @Positive
     @NotNull
-    private Long upc;
+    private String upc;
 
     @Null
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ", shape = JsonFormat.Shape.STRING)

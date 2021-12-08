@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(BeerController.class)
 @ExtendWith(RestDocumentationExtension.class)
 public class BeerControllerTest {
+	public static final String BEER_1_UPC = "0002348987546";
 
 	@Autowired
 	MockMvc mockMvc;
@@ -62,7 +63,7 @@ public class BeerControllerTest {
 	@Test
 	public void shouldSaveNewBeer() throws Exception {
 		BeerDTO beer = BeerDTO.builder().beerName("Test").beerStyle(BeerStyleEnum.ALE).price(new BigDecimal(34.99))
-				.upc(129087648912L).build();
+				.upc(BEER_1_UPC).build();
 		String beerDTOJson = objectMapper.writeValueAsString(beer);
 
 		mockMvc.perform(post(apiURI).contentType(MediaType.APPLICATION_JSON).content(beerDTOJson))
@@ -80,7 +81,7 @@ public class BeerControllerTest {
 	@Test
 	public void shouldUpdateBeer() throws Exception {
 		BeerDTO beer = BeerDTO.builder().beerName("Test").beerStyle(BeerStyleEnum.ALE).price(new BigDecimal(34.99))
-				.upc(129087648912L).build();
+				.upc(BEER_1_UPC).build();
 		String beerDTOJson = objectMapper.writeValueAsString(beer);
 
 		mockMvc.perform(put(apiURI + "{beerId}", id).contentType(MediaType.APPLICATION_JSON).content(beerDTOJson))
