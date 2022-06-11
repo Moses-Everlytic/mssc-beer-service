@@ -10,7 +10,6 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Positive;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.nexstudio.msscbeerservice.constants.BeerStyleEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +32,7 @@ public class BeerDTO {
     private String beerName;
 
     @NotNull
-    private BeerStyleEnum beerStyle;
+    private String beerStyle;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Positive

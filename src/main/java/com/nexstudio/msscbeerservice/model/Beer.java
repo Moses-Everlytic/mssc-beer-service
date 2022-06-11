@@ -14,10 +14,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-import com.nexstudio.msscbeerservice.constants.BeerStyleEnum;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
@@ -37,11 +36,16 @@ public class Beer {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Type(type = "org.hibernate.type.UUIDCharType")
     @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID id;
 
-    @Version
-    private Long version;
+    @NotBlank
+    @Size(min = 3, max = 100)
+    private String beerName;
+
+    @NotNull
+    private String beerStyle;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -50,23 +54,18 @@ public class Beer {
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
 
-    @NotBlank
-    @Size(min = 3, max = 100)
-    private String beerName;
-
-    @NotNull
-    private BeerStyleEnum beerStyle;
-
-    @Column(unique = true)
-    private String upc;
-
-    @Positive
-    @NotNull
-    private BigDecimal price;
-
     private Integer minOnHand;
 
     @Positive
     private Integer quantityToBrew;
 
+    @Positive
+    @NotNull
+    private BigDecimal price;
+
+    @Column(unique = true)
+    private String upc;
+
+    @Version
+    private Long version;
 }

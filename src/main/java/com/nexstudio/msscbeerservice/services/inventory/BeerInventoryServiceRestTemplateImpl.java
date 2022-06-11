@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.nexstudio.msscbeerservice.services.inventory.model.BeerInventoryDTO;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Profile;
@@ -15,6 +12,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import com.nexstudio.msscbeerservice.services.inventory.model.BeerInventoryDTO;
 
 import lombok.extern.slf4j.Slf4j;
 

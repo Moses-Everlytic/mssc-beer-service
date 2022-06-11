@@ -4,21 +4,20 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 // import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 // import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 // import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
 import java.util.UUID;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nexstudio.msscbeerservice.bootstrap.BeerSeedData;
-import com.nexstudio.msscbeerservice.constants.BeerStyleEnum;
-import com.nexstudio.msscbeerservice.services.BeerService;
-import com.nexstudio.msscbeerservice.web.model.BeerDTO;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +28,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nexstudio.msscbeerservice.bootstrap.BeerSeedData;
+import com.nexstudio.msscbeerservice.services.BeerService;
+import com.nexstudio.msscbeerservice.web.model.BeerDTO;
 
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lacafenex.com", uriPort = 80)
 @WebMvcTest(BeerController.class)
@@ -72,7 +76,7 @@ public class BeerControllerTest {
 
 	@Test
 	public void shouldSaveNewBeer() throws Exception {
-		BeerDTO beer = BeerDTO.builder().beerName("Test").beerStyle(BeerStyleEnum.ALE).price(new BigDecimal(34.99))
+		BeerDTO beer = BeerDTO.builder().beerName("Test").beerStyle("ALE").price(new BigDecimal(34.99))
 				.upc(BeerSeedData.BEER_1_UPC).build();
 		String beerDTOJson = objectMapper.writeValueAsString(beer);
 
@@ -92,7 +96,7 @@ public class BeerControllerTest {
 
 	@Test
 	public void shouldUpdateBeer() throws Exception {
-		BeerDTO beer = BeerDTO.builder().beerName("Test").beerStyle(BeerStyleEnum.ALE).price(new BigDecimal(34.99))
+		BeerDTO beer = BeerDTO.builder().beerName("Test").beerStyle("ALE").price(new BigDecimal(34.99))
 				.upc(BeerSeedData.BEER_1_UPC).build();
 		String beerDTOJson = objectMapper.writeValueAsString(beer);
 
@@ -113,7 +117,7 @@ public class BeerControllerTest {
 	private BeerDTO getValidBeerDto() {
 		return BeerDTO.builder()
 				.beerName("My Beer")
-				.beerStyle(BeerStyleEnum.ALE)
+				.beerStyle("ALE")
 				.price(new BigDecimal("13.99"))
 				.upc(BeerSeedData.BEER_1_UPC)
 				.build();
