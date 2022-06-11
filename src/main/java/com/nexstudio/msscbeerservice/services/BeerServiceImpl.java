@@ -84,9 +84,14 @@ public class BeerServiceImpl implements BeerService {
         }
 
         beerPagedList = new BeerPagedList(
-                beerPage.getContent().stream().map(beerMapper::beerToBeerDTO).collect(Collectors.toList()),
-                PageRequest.of(beerPage.getPageable().getPageNumber(), beerPage.getPageable().getPageSize()),
-                beerPage.getTotalElements());
+                beerPage.getContent()
+                        .stream()
+                        .map(beerMapper::beerToBeerDTO)
+                        .collect(Collectors.toList()),
+                        PageRequest
+                                .of(beerPage.getPageable().getPageNumber(), 
+                                        beerPage.getPageable().getPageSize()),
+                        beerPage.getTotalElements());
 
         return beerPagedList;
     }

@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import com.nexstudio.msscbeerservice.services.inventory.model.BeerInventoryDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Profile("!local-discovery")
 @Slf4j
 @ConfigurationProperties(prefix = "nexstudio.brewery", ignoreUnknownFields = true)
 @Component
@@ -46,11 +44,9 @@ public class BeerInventoryServiceRestTemplateImpl implements BeerInventoryServic
                         new ParameterizedTypeReference<List<BeerInventoryDTO>>(){}, (Object) beerId);
 
         //sum from inventory list
-        Integer onHand = Objects.requireNonNull(responseEntity.getBody())
+        return Objects.requireNonNull(responseEntity.getBody())
                 .stream()
                 .mapToInt(BeerInventoryDTO::getQuantityOnHand)
                 .sum();
-
-        return onHand;
     }
 }
