@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping({ BeerController.BASE_API_URI })
 public class BeerController {
 
-    public static final String BASE_API_URI = "/api/v1/beer";
+    public static final String BASE_API_URI = "/api/v1/";
 
     private static final Integer DEFAULT_PAGE_NUMBER = 0 ;
     private static final Integer DEFAULT_PAGE_SIZE = 25 ;
@@ -35,7 +35,7 @@ public class BeerController {
 
     private final BeerService beerService;
 
-    @GetMapping(produces = { "application/json" })
+    @GetMapping(path="beer", produces = { "application/json" })
     public ResponseEntity<BeerPagedList> listBeers(
             @RequestParam(value = "PageNumber", defaultValue = "0", required = false) Integer pageNumber,
             @RequestParam(value = "pageSize", defaultValue = "25", required = false) Integer pageSize,
@@ -52,7 +52,7 @@ public class BeerController {
         return new ResponseEntity<>(beerList, HttpStatus.OK);
     }
 
-    @GetMapping("/{beerId}")
+    @GetMapping("beer/{beerId}")
     public ResponseEntity<BeerDTO> getBeer(@PathVariable("beerId") UUID id, 
             @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand) {
 
@@ -60,12 +60,17 @@ public class BeerController {
         return new ResponseEntity<>(beerService.getById(id, showInventoryOnHand), HttpStatus.OK);
     }
 
-    @PostMapping
+    @GetMapping("beerUpc/{upc}")
+    public ResponseEntity<BeerDTO> getBeerByUpc(@PathVariable("upc") String upc)  {
+        return new ResponseEntity<>(beerService.getByUpc(upc), HttpStatus.OK);
+    }
+
+    @PostMapping("beer")
     public ResponseEntity<BeerDTO> saveNewBeer(@Valid @RequestBody BeerDTO beerDTO) {
         return new ResponseEntity<>(beerService.saveNewBeer(beerDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{beerId}")
+    @PutMapping("beer/{beerId}")
     public ResponseEntity<BeerDTO> updateBeer(@PathVariable("beerId") UUID id, @Valid @RequestBody BeerDTO beerDTO) {
         return new ResponseEntity<>(beerService.updateBeer(id, beerDTO), HttpStatus.NO_CONTENT);
     }
